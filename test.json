@@ -1,0 +1,132 @@
+{
+  "boundaries": {
+    "max": {
+      "lat": 45.75862,
+      "lng": 11.86522
+    },
+    "min": {
+      "lat": 45.09217,
+      "lng": 10.32535
+    }
+  },
+  "mapData": {
+    "20221022": [
+      {
+        "name": "20221022-1",
+        "data": [
+          {
+            "lat": 45.48158,
+            "lng": 10.32535,
+            "name": "Brescia Est",
+            "id": 3760
+          },
+          { "lat": 45.4497, "lng": 10.51937, "name": "Desenzano", "id": 3759 },
+          { "lat": 45.4338, "lng": 10.61032, "name": "Sirmione", "id": 3757 },
+          {
+            "lat": 45.39748,
+            "lng": 10.96755,
+            "name": "Verona Sud",
+            "id": 3766
+          },
+          { "lat": 45.411, "lng": 11.09128, "name": "Verona Est", "id": 3765 },
+          { "lat": 45.4095, "lng": 11.2498, "name": "Soave", "id": 3752 },
+          {
+            "lat": 45.43607,
+            "lng": 11.35543,
+            "name": "Montebello",
+            "id": 3763
+          },
+          { "lat": 45.49022, "lng": 11.4418, "name": "Montecchio", "id": 3762 },
+          {
+            "lat": 45.51162,
+            "lng": 11.60137,
+            "name": "Vicenza Est",
+            "id": 3751
+          },
+          {
+            "lat": 45.47835,
+            "lng": 11.70675,
+            "name": "Grisignano",
+            "id": 3774
+          },
+          {
+            "lat": 45.44512,
+            "lng": 11.86522,
+            "name": "Padova Ovest",
+            "id": 3771
+          }
+        ]
+      }
+    ],
+    "20221024": [
+      {
+        "name": "20221024-1",
+        "data": [
+          {
+            "lat": 45.75862,
+            "lng": 11.4467,
+            "name": "Piovene Rocchette",
+            "id": 479
+          },
+          { "lat": 45.68264, "lng": 11.46087, "name": "Thiene", "id": 475 },
+          { "lat": 45.64172, "lng": 11.56708, "name": "Dueville", "id": 474 },
+          {
+            "lat": 45.57887,
+            "lng": 11.60162,
+            "name": "Vicenza Nord",
+            "id": 478
+          },
+          {
+            "lat": 45.21615,
+            "lng": 11.54628,
+            "name": "Santa Margherita D'Adige",
+            "id": 25849
+          },
+          {
+            "lat": 45.13277,
+            "lng": 11.53048,
+            "name": "Piacenza D'Adige",
+            "id": 25850
+          },
+          {
+            "lat": 45.09217,
+            "lng": 11.52713,
+            "name": "Badia Polesine",
+            "id": 25851
+          }
+        ]
+      }
+    ],
+    "20221025": [
+      {
+        "name": "20221025-1",
+        "data": [
+          {
+            "lat": 45.75862,
+            "lng": 11.4467,
+            "name": "Piovene Rocchette",
+            "id": 479
+          },
+          {
+            "lat": 45.21615,
+            "lng": 11.54628,
+            "name": "Santa Margherita D'Adige",
+            "id": 25849
+          },
+          {
+            "lat": 45.13277,
+            "lng": 11.53048,
+            "name": "Piacenza D'Adige",
+            "id": 25850
+          },
+          {
+            "lat": 45.09217,
+            "lng": 11.52713,
+            "name": "Badia Polesine",
+            "id": 25851
+          }
+        ]
+      }
+    ]
+  }
+}
