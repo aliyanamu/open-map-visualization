@@ -55,7 +55,7 @@ export const drawMarker = function ({ layerGroup, map, mapData }) {
 export const drawPath = function ({ layerGroup, map, mapData }) {
   mapData.map(function (path) {
     const coords = path.data.map((coord) => [coord.lat, coord.lng]);
-    layerGroup.addLayer(L.polyline(coords, { color: "red" }));
+    layerGroup.addLayer(L.polyline(coords, { color: "#0075ff" }));
   });
 
   layerGroup.addTo(map);

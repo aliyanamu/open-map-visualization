@@ -56,6 +56,11 @@ input[type="button"] {
   width: 100%;
 }
 
+.path-radio-input {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
 /* Date Input & Slider */
 .data-value-input .field {
   display: flex;
@@ -92,14 +97,14 @@ input[type="date"]::-webkit-inner-spin-button {
   -moz-appearance: none;
 }
 
-.slider {
+.date-slider {
   height: 5px;
   position: relative;
   background: #ddd;
   border-radius: 5px;
 }
 
-.slider .progress {
+.date-slider .progress {
   height: 100%;
   left: 0%;
   right: 0%;
@@ -108,24 +113,56 @@ input[type="date"]::-webkit-inner-spin-button {
   background: #0075ff;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+.date-range-input input[type="range"]::-webkit-slider-thumb {
   height: 17px;
   width: 17px;
   border: none;
   border-radius: 50%;
   background: #0075ff;
   pointer-events: auto;
+  cursor: grab;
   -webkit-appearance: none;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
 }
 
-input[type="range"]::-moz-range-thumb {
+.date-range-input input[type="range"]::-moz-range-thumb {
   height: 17px;
   width: 17px;
   border: none;
   border-radius: 50%;
   background: #0075ff;
   pointer-events: auto;
+  cursor: grab;
   -moz-appearance: none;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Animation */
+.animation-slider input {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 100%;
+  height: 5px;
+  background: #ddd;
+  outline: none;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.animation-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 17px;
+  height: 17px;
+  background: #0075ff;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.animation-slider input[type="range"]::-moz-range-thumb {
+  -moz-appearance: none;
+  width: 17px;
+  height: 17px;
+  background: #0075ff;
+  border-radius: 50%;
+  cursor: pointer;
 }

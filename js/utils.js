@@ -1,7 +1,7 @@
-const minDateInput = document.getElementById("min_date_input");
-const minDateRange = document.getElementById("min_date_range");
-const maxDateInput = document.getElementById("max_date_input");
-const maxDateRange = document.getElementById("max_date_range");
+const rangeInput = document.querySelectorAll(".date-range-input input");
+const valueInput = document.querySelectorAll(".date-value-input input");
+const animationInput = document.querySelector(".animation-slider input");
+const range = document.querySelector(".date-slider .progress");
 
 export const calculateDiffDate = function (minDate, maxDate) {
   // milisecond to day
@@ -41,20 +41,18 @@ export const transformMapData = function (mapDataByDate) {
     (obj, key, index) => {
       if (index === 0) {
         minDate = formatKeyToDateStr(key);
-        minDateInput.value = minDate;
-        minDateInput.min = minDate;
-        maxDateInput.min = minDate;
+        valueInput[0].value = minDate;
+        valueInput[0].min = minDate;
+        valueInput[1].min = minDate;
         obj.initData = mapDataByDate[key];
       }
       if (index === sortDates.length - 1) {
         maxDate = formatKeyToDateStr(key);
         diffDate = calculateDiffDate(minDate, maxDate);
-        minDateInput.max = maxDate;
-        maxDateInput.value = maxDate;
-        maxDateInput.max = maxDate;
-        minDateRange.setAttribute("max", diffDate);
-        maxDateRange.setAttribute("max", diffDate);
-        maxDateRange.setAttribute("value", diffDate);
+        valueInput[0].max = maxDate;
+        valueInput[1].value = maxDate;
+        valueInput[1].max = maxDate;
+        resetDateRange(diffDate);
       }
 
       obj.sortedMapData[key] = mapDataByDate[key];
@@ -62,4 +60,21 @@ export const transformMapData = function (mapDataByDate) {
     },
     { initData: {}, sortedMapData: [] }
   );
+};
+
+export const resetDateRange = function (maxValue) {
+  rangeInput[0].min = 0;
+  rangeInput[0].max = maxValue;
+  rangeInput[0].value = 0;
+  rangeInput[1].min = 0;
+  rangeInput[1].max = maxValue;
+  rangeInput[1].value = maxValue;
+  range.style.left = "0%";
+  range.style.right = "0%";
+};
+
+export const resetAnimationRange = function (maxValue) {
+  animationInput.min = 0;
+  animationInput.max = maxValue;
+  animationInput.value = 0;
 };
