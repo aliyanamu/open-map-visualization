@@ -53,7 +53,7 @@ export const transformMapData = (mapDataByDate) => {
         valueInput[1].value = maxDate;
         valueInput[1].max = maxDate;
         resetDateRange(diffDate);
-        resetAnimationRange(diffDate);
+        resetAnimationRange(0, diffDate);
       }
 
       obj.sortedMapData[key] = mapDataByDate[key];

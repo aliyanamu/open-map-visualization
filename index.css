@@ -7,7 +7,7 @@
 }
 
 section {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .title {
@@ -23,11 +23,18 @@ section {
 .flex-container {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
 .half {
-  width: 45%;
+  flex: 45%;
+}
+
+@media (max-width: 800px) {
+  .half {
+    flex: 90%;
+  }
 }
 
 .inline {
@@ -66,7 +73,6 @@ input[type="button"] {
 
 .path-radio-input {
   width: 100%;
-  margin-bottom: 1rem;
   gap: 0.4rem;
 }
 
@@ -75,10 +81,6 @@ input[type="button"] {
 }
 
 /* Date Input & Slider */
-.date-value-input {
-  margin-bottom: 2.5rem;
-}
-
 .field {
   display: flex;
   height: 35px;
@@ -102,7 +104,6 @@ input[type="date"]::-webkit-inner-spin-button {
 
 .date-range-input {
   position: relative;
-  margin-bottom: 2.5rem;
 }
 
 .date-range-input input {
@@ -117,6 +118,7 @@ input[type="date"]::-webkit-inner-spin-button {
 }
 
 .date-slider {
+  margin-bottom: 1rem;
   height: 5px;
   position: relative;
   background: #ddd;
@@ -159,7 +161,7 @@ input[type="date"]::-webkit-inner-spin-button {
 /* Animation */
 .animation-slider {
   align-items: center;
-  gap: 0.75rem;
+  width: 100%;
 }
 
 .animation-btn-wrapper {
@@ -206,7 +208,7 @@ input[type="date"]::-webkit-inner-spin-button {
 .animation-slider input {
   -webkit-appearance: none;
   -moz-appearance: none;
-  width: 100%;
+  flex-grow: 8;
   height: 5px;
   background: #ddd;
   outline: none;

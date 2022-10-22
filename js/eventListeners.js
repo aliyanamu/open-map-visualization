@@ -24,7 +24,7 @@ const isAnimationPlaying = () => {
 
 const getInitDateValue = () => {
   const initSliderValue = parseInt(animationSlider.value, 10);
-  const initDateValue = new Date(valueInput[0].min);
+  const initDateValue = new Date(valueInput[0].value);
   if (isAnimationPlaying()) {
     initDateValue.setDate(initDateValue.getDate() + initSliderValue);
   }
@@ -38,7 +38,8 @@ const animate = (timer = 5000, playSpeed = 1000) => {
 
   animationTimer = setInterval(function () {
     const timePassed = Date.now() - start;
-    if (initSliderValue < parseInt(animationSlider.max, 10)) {
+    const initSliderMax = parseInt(animationSlider.max, 10);
+    if (initSliderValue < initSliderMax) {
       initDateValue.setDate(initDateValue.getDate() + 1);
       const dateValue = formatDate(initDateValue);
       renderMapOnDateChange(formatDateStrToKey(dateValue));
@@ -89,13 +90,12 @@ valueInput.forEach((input) => {
         rangeInput[0].value = diffDate;
         dateRange.style.left = (diffDate / rangeInput[0].max) * 100 + "%";
         renderMapOnDateChange(formatDateStrToKey(e.target.value));
-        // resetAnimationRange(rangeInput[0].value, rangeInput[1].value);
       } else {
         const diffDate = calculateDiffDate(e.target.value, valueInput[1].max);
         rangeInput[1].value = rangeInput[1].max - diffDate;
         dateRange.style.right = (diffDate / rangeInput[1].max) * 100 + "%";
-        // resetAnimationRange(rangeInput[0].value, rangeInput[1].value);
       }
+      resetAnimationRange(rangeInput[0].value, rangeInput[1].value);
     }
   };
 });
@@ -123,7 +123,7 @@ rangeInput.forEach((input) => {
         valueInput[0].value = formatDate(minDateValue);
         dateRange.style.left = (Math.abs(inc) / rangeInput[0].max) * 100 + "%";
         renderMapOnDateChange(formatDateStrToKey(valueInput[0].value));
-        resetAnimationRange(0, rangeInput[0].max - inc);
+        resetAnimationRange(0, rangeInput[1].value - inc);
       } else {
         inc -= rangeInput[1].max;
         const maxDateValue = new Date(valueInput[1].max);
@@ -163,5 +163,12 @@ refreshButton.onclick = () => {
   animationButton.classList.remove("playing");
   if (valueInput[0].min && valueInput[1].max) {
     renderMapOnDateChange(formatDateStrToKey(valueInput[0].value));
+  }
+};
+
+animationSlider.oninput = () => {
+  if (valueInput[0].min && valueInput[1].max) {
+    const initDate = formatDate(getInitDateValue());
+    renderMapOnDateChange(formatDateStrToKey(initDate));
   }
 };
