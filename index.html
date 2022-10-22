@@ -19,34 +19,27 @@
   <body>
     <div class="container">
       <section>
-        <h1>Open Map Visualization</h1>
-        <br />
+        <h1 class="title">Open Map Visualization</h1>
         <div id="js_map"></div>
       </section>
 
       <div class="flex-container">
         <div class="half">
-          <section class="path-radio-input inline-flex-container">
-            <label for="path">Path</label>
-            <input type="radio" id="path_on" value="on" />On
-            <input type="radio" id="path_off" value="off" />Off
+          <section class="file-input flex-container">
+            <input type="file" id="json_file_input" />
+            <div class="inline-flex-container">
+              <input
+                type="button"
+                id="load_map_btn"
+                value="Load Map"
+                onclick="loadFile()"
+              />
+              <a href="./test.json" download>
+                <input type="button" value="Download JSON" />
+              </a>
+            </div>
           </section>
 
-          <section class="inline-flex-container">
-            <input type="file" class="action-btn" id="json_file_input" />
-            <input
-              type="button"
-              id="load_map_btn"
-              value="Load Map"
-              onclick="loadFile()"
-            />
-            <a href="./test.json" download>
-              <input type="button" value="Download JSON" />
-            </a>
-          </section>
-        </div>
-
-        <div class="half">
           <section class="flex-container date-value-input">
             <div class="field">
               <label for="min_date_input">Min Date</label>
@@ -82,8 +75,34 @@
             />
           </section>
 
+          <section class="path-radio-input inline-flex-container">
+            <label for="path">Path</label>
+            <input type="radio" id="path_on" value="on" />On
+            <input type="radio" id="path_off" value="off" />Off
+          </section>
+
+          <section class="playback-speed-input inline-flex-container">
+            <div class="field">
+              <label for="playback_speed">Playback Speed</label>
+              <input
+                type="number"
+                value="1000"
+                min="100"
+                id="playback_speed_input"
+              />
+            </div>
+          </section>
+        </div>
+
+        <div class="half">
           <section>
-            <div class="animation-slider">
+            <div class="flex-container animation-slider">
+              <div class="animation-btn-wrapper">
+                <button class="button"></button>
+              </div>
+              <div class="animation-btn-wrapper">
+                <span class="refresh">↻</span>
+              </div>
               <input type="range" min="0" max="100" value="0" step="1" />
             </div>
           </section>

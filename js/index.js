@@ -5,18 +5,17 @@ import { transformMapData } from "./utils.js";
 const map = L.map("js_map");
 let isMapLayerReady = false,
   isMapDataLoading = false,
-  currLayerGroup,
+  currMarkerGroup,
+  currPathGroup,
   animatedMapData,
   animatedMapBoundaries;
 
-const init = function () {
+const init = () => {
   document.getElementById("path_on").checked = true;
   initMap();
 };
 
-const initMap = async function (mapData = [], boundaries = defaultBoundaries) {
-  const isPathActive = document.getElementById("path_on").checked;
-
+const initMap = async (mapData = [], boundaries = defaultBoundaries) => {
   // fit map between min and max boundaries
   map.fitBounds(
     L.latLngBounds(L.latLng(boundaries.min), L.latLng(boundaries.max))
@@ -28,25 +27,25 @@ const initMap = async function (mapData = [], boundaries = defaultBoundaries) {
   }
 
   if (isMapDataLoading) {
-    if (currLayerGroup) {
-      currLayerGroup.removeFrom(map);
+    if (currMarkerGroup || currPathGroup) {
+      currMarkerGroup.removeFrom(map);
+      currPathGroup.removeFrom(map);
     }
 
     if (mapData.length) {
-      let currMarker, currPath;
-      const layerGroup = L.layerGroup();
-
-      currMarker = await drawMarker({ layerGroup, map, mapData });
-      if (isPathActive) {
-        currPath = await drawPath({ layerGroup, map, mapData });
-      }
-      currLayerGroup = Object.assign(currMarker, currPath);
+      const markerLayerGroup = L.layerGroup();
+      currMarkerGroup = await drawMarker({
+        layerGroup: markerLayerGroup,
+        map,
+        mapData,
+      });
+      await renderPath(mapData);
     }
     isMapDataLoading = false;
   }
 };
 
-const loadFile = function () {
+const loadFile = () => {
   let input, file, fr;
   if (typeof window.FileReader !== "function") {
     alert("The file API isn't supported on this browser yet.");
@@ -70,7 +69,7 @@ const loadFile = function () {
   }
 };
 
-const readFile = async function (e) {
+const readFile = async (e) => {
   isMapDataLoading = true;
   const rawData = e.target.result;
   const parseData = JSON.parse(rawData);
@@ -87,13 +86,33 @@ const readFile = async function (e) {
   animatedMapBoundaries = boundaries;
 };
 
-export const renderMapOnDateChange = async function (dateKey) {
+export const renderMapOnDateChange = async (dateKey) => {
   if (!animatedMapData) {
     return;
   }
   isMapDataLoading = true;
   const mapData = animatedMapData[dateKey] || [];
   await initMap(mapData, animatedMapBoundaries);
+};
+
+const renderPath = async (mapData) => {
+  const isPathActive = document.getElementById("path_on").checked;
+
+  if (isPathActive && mapData.length) {
+    const pathLayerGroup = L.layerGroup();
+    currPathGroup = await drawPath({
+      layerGroup: pathLayerGroup,
+      map,
+      mapData,
+    });
+  } else {
+    currPathGroup.removeFrom(map);
+  }
+};
+
+export const togglePath = async (dateKey) => {
+  const mapData = animatedMapData[dateKey] || [];
+  await renderPath(mapData);
 };
 
 window.onload = init;

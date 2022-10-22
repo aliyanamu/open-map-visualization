@@ -5,7 +5,7 @@ import {
   openStreetURL,
 } from "./constants.js";
 
-export const createMapLayers = function ({ map }) {
+export const createMapLayers = ({ map }) => {
   // add CartoDB map layer
   const carto = L.tileLayer(cartoURL, {
     maxZoom: 18,
@@ -38,9 +38,9 @@ export const createMapLayers = function ({ map }) {
     .addTo(map);
 };
 
-export const drawMarker = function ({ layerGroup, map, mapData }) {
-  mapData.map(function (point) {
-    point.data.map(function (coord) {
+export const drawMarker = ({ layerGroup, map, mapData }) => {
+  mapData.map((point) => {
+    point.data.map((coord) => {
       const markerStyle = {
         title: coord.name,
       };
@@ -52,8 +52,8 @@ export const drawMarker = function ({ layerGroup, map, mapData }) {
   return layerGroup;
 };
 
-export const drawPath = function ({ layerGroup, map, mapData }) {
-  mapData.map(function (path) {
+export const drawPath = ({ layerGroup, map, mapData }) => {
+  mapData.map((path) => {
     const coords = path.data.map((coord) => [coord.lat, coord.lng]);
     layerGroup.addLayer(L.polyline(coords, { color: "#0075ff" }));
   });
@@ -62,6 +62,6 @@ export const drawPath = function ({ layerGroup, map, mapData }) {
   return layerGroup;
 };
 
-export const logPoint = function (e) {
+export const logPoint = (e) => {
   console.log(`lat: ${e.latlng.lat}, lng: ${e.latlng.lng}`);
 };
