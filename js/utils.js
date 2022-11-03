@@ -1,7 +1,5 @@
-const rangeInput = document.querySelectorAll(".date-range-input input");
 const valueInput = document.querySelectorAll(".date-value-input input");
 const animationInput = document.querySelector(".animation-slider input");
-const range = document.querySelector(".date-slider .progress");
 
 export const calculateDiffDate = (minDate, maxDate) => {
   // milisecond to day
@@ -52,7 +50,6 @@ export const transformMapData = (mapDataByDate) => {
         valueInput[0].max = maxDate;
         valueInput[1].value = maxDate;
         valueInput[1].max = maxDate;
-        resetDateRange(diffDate);
         resetAnimationRange(0, diffDate);
       }
 
@@ -61,17 +58,6 @@ export const transformMapData = (mapDataByDate) => {
     },
     { initData: {}, sortedMapData: [] }
   );
-};
-
-export const resetDateRange = (maxValue) => {
-  rangeInput[0].min = 0;
-  rangeInput[0].max = maxValue;
-  rangeInput[0].value = 0;
-  rangeInput[1].min = 0;
-  rangeInput[1].max = maxValue;
-  rangeInput[1].value = maxValue;
-  range.style.left = "0%";
-  range.style.right = "0%";
 };
 
 export const resetAnimationRange = (minValue = 0, maxValue) => {

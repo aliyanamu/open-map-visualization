@@ -40,39 +40,6 @@
             </div>
           </section>
 
-          <section class="flex-container date-value-input">
-            <div class="field">
-              <label for="min_date_input">Min Date</label>
-              <input type="date" id="min_date_input" />
-            </div>
-            <div class="field">
-              <label for="max_date_input">Max Date</label>
-              <input type="date" id="max_date_input" />
-            </div>
-          </section>
-
-          <section class="date-slider">
-            <div class="progress"></div>
-          </section>
-
-          <section class="date-range-input">
-            <input
-              type="range"
-              id="min_date_range"
-              min="0"
-              value="0"
-              step="1"
-            />
-            <input
-              type="range"
-              id="max_date_range"
-              min="0"
-              max="100"
-              value="100"
-              step="1"
-            />
-          </section>
-
           <section class="path-radio-input inline-flex-container">
             <label for="path">Path</label>
             <input type="radio" id="path_on" value="on" />On
@@ -93,6 +60,17 @@
         </div>
 
         <div class="half">
+          <section class="flex-container date-value-input">
+            <div class="field">
+              <label for="min_date_input">Min Date</label>
+              <input type="date" id="min_date_input" />
+            </div>
+            <div class="field">
+              <label for="max_date_input">Max Date</label>
+              <input type="date" id="max_date_input" />
+            </div>
+          </section>
+
           <section>
             <div class="flex-container animation-slider">
               <div class="inline-flex-container">
@@ -103,7 +81,10 @@
                   <span class="refresh">↻</span>
                 </div>
               </div>
-              <input type="range" min="0" max="100" value="0" step="1" />
+              <div class="range-input-wrapper">
+                <div class="range-label"></div>
+                <input type="range" min="0" max="100" value="0" step="1" />
+              </div>
             </div>
           </section>
           <section></section>
