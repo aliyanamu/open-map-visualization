@@ -16,27 +16,14 @@ export const defaultBoundaries = {
     lng: 104.86881,
   },
 };
-// https://github.com/pointhi/leaflet-color-markers
-const IconProps = {
+// source custom markers https://github.com/pointhi/leaflet-color-markers
+export const customIconURL =
+  "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-xxx.png";
+export const iconProps = {
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
   shadowSize: [41, 41],
-};
-export const greenIcon = {
-  ...IconProps,
-  iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png",
-};
-export const redIcon = {
-  ...IconProps,
-  iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-};
-export const orangeIcon = {
-  ...IconProps,
-  iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-orange.png",
 };

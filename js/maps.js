@@ -4,6 +4,7 @@ import {
   openStreetATR,
   openStreetURL,
 } from "./constants.js";
+import { customIcon } from "./utils.js";
 
 export const createMapLayers = ({ map }) => {
   // add CartoDB map layer
@@ -38,28 +39,32 @@ export const createMapLayers = ({ map }) => {
     .addTo(map);
 };
 
-export const drawMarker = ({ layerGroup, map, mapData }) => {
-  mapData.map((point) => {
-    point.data.map((coord) => {
+export const drawMarker = ({ featureGroup, properties, currDate }) => {
+  properties.map((data) => {
+    const loc = data.locations.find((loc) => loc.date === currDate);
+    if (loc) {
       const markerStyle = {
-        title: coord.name,
+        title: `${data.name} at ${loc.name || "Unknown"}`,
       };
-      layerGroup.addLayer(L.marker([coord.lat, coord.lng], markerStyle));
-    });
+      if (data.icon) {
+        markerStyle.icon = L.icon(customIcon(data.icon));
+      }
+      featureGroup.addLayer(L.marker([loc.lat, loc.lng], markerStyle));
+    }
   });
-
-  layerGroup.addTo(map);
-  return layerGroup;
 };
 
-export const drawPath = ({ layerGroup, map, mapData }) => {
-  mapData.map((path) => {
-    const coords = path.data.map((coord) => [coord.lat, coord.lng]);
-    layerGroup.addLayer(L.polyline(coords, { color: "#0075ff" }));
+export const drawPath = ({ featureGroup, properties, currDate }) => {
+  properties.map((data) => {
+    const lastLoc = data.locations[data.locations.length - 1];
+    if (lastLoc.date >= currDate) {
+      const coords = data.locations.reduce((coords, loc) => {
+        if (loc.date <= currDate) coords.push([loc.lat, loc.lng]);
+        return coords;
+      }, []);
+      featureGroup.addLayer(L.polyline(coords, { color: "#0075ff" }));
+    }
   });
-
-  layerGroup.addTo(map);
-  return layerGroup;
 };
 
 export const logPoint = (e) => {

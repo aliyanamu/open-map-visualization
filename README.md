@@ -31,3 +31,16 @@
 
 - The web app should run client side only, expect for the maps APIs
 - The web app should only needs to run on only Chromium and safari based browsers
+
+Notes:
+Available custom icon color provided from [source](https://github.com/pointhi/leaflet-color-markers) as below
+
+- `black`
+- `blue`
+- `gold`
+- `green`
+- `grey`
+- `orange`
+- `red`
+- `violet`
+- `yellow`

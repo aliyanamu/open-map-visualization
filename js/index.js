@@ -1,21 +1,21 @@
 import { defaultBoundaries } from "./constants.js";
 import { createMapLayers, drawMarker, drawPath, logPoint } from "./maps.js";
-import { transformMapData } from "./utils.js";
+import { getAnimationDateLabel, setInitDateRange } from "./utils.js";
 
 const map = L.map("js_map");
 let isMapLayerReady = false,
   isMapDataLoading = false,
-  currMarkerGroup,
-  currPathGroup,
-  animatedMapData,
+  featureGroup,
+  animatedMapProperties,
   animatedMapBoundaries;
 
 const init = () => {
   document.getElementById("path_on").checked = true;
+  setInitDateRange();
   initMap();
 };
 
-const initMap = async (mapData = [], boundaries = defaultBoundaries) => {
+const initMap = async (properties = [], boundaries = defaultBoundaries) => {
   // fit map between min and max boundaries
   map.fitBounds(
     L.latLngBounds(L.latLng(boundaries.min), L.latLng(boundaries.max))
@@ -26,23 +26,20 @@ const initMap = async (mapData = [], boundaries = defaultBoundaries) => {
     isMapLayerReady = true;
   }
 
-  if (isMapDataLoading) {
-    if (currMarkerGroup || currPathGroup) {
-      currMarkerGroup.removeFrom(map);
-      currPathGroup.removeFrom(map);
-    }
-
-    if (mapData.length) {
-      const markerLayerGroup = L.layerGroup();
-      currMarkerGroup = await drawMarker({
-        layerGroup: markerLayerGroup,
-        map,
-        mapData,
-      });
-      await renderPath(mapData);
-    }
-    isMapDataLoading = false;
+  if (!featureGroup) {
+    featureGroup = L.featureGroup();
+    featureGroup.addTo(map);
+  } else {
+    featureGroup.clearLayers();
   }
+
+  if (isMapDataLoading && properties.length) {
+    // Get date rendered from ongoing animation
+    const currDate = getAnimationDateLabel();
+    await drawMarker({ featureGroup, properties, currDate });
+    await renderPath({ featureGroup, properties, currDate });
+  }
+  isMapDataLoading = false;
 };
 
 const loadFile = () => {
@@ -73,46 +70,49 @@ const readFile = async (e) => {
   isMapDataLoading = true;
   const rawData = e.target.result;
   const parseData = JSON.parse(rawData);
-  const { boundaries, mapData: mapDataByDate } = parseData;
+  const { boundaries, properties } = parseData;
 
-  if (!(boundaries && mapDataByDate)) {
+  if (!(boundaries && properties)) {
     alert("Well, no data found. Please fill out the data first");
   }
 
-  const { initData, sortedMapData } = await transformMapData(mapDataByDate);
-
-  await initMap(initData, boundaries);
-  animatedMapData = sortedMapData;
+  await initMap(properties, boundaries);
+  animatedMapProperties = properties;
   animatedMapBoundaries = boundaries;
 };
 
-export const renderMapOnDateChange = async (dateKey) => {
-  if (!animatedMapData) {
+export const renderMapOnDateChange = async () => {
+  if (!animatedMapProperties) {
     return;
   }
   isMapDataLoading = true;
-  const mapData = animatedMapData[dateKey] || [];
-  await initMap(mapData, animatedMapBoundaries);
+  await initMap(animatedMapProperties, animatedMapBoundaries);
 };
 
-const renderPath = async (mapData) => {
+const renderPath = async ({ featureGroup, properties, currDate }) => {
   const isPathActive = document.getElementById("path_on").checked;
 
-  if (isPathActive && mapData.length) {
-    const pathLayerGroup = L.layerGroup();
-    currPathGroup = await drawPath({
-      layerGroup: pathLayerGroup,
-      map,
-      mapData,
+  if (isPathActive && properties.length) {
+    await drawPath({
+      featureGroup,
+      properties,
+      currDate,
     });
   } else {
-    currPathGroup.removeFrom(map);
+    const currPathLayer = featureGroup
+      .getLayers()
+      .filter((layer) => layer._path);
+    currPathLayer.map((pathLayer) => featureGroup.removeLayer(pathLayer));
   }
 };
 
-export const togglePath = async (dateKey) => {
-  const mapData = animatedMapData[dateKey] || [];
-  await renderPath(mapData);
+export const togglePath = async () => {
+  const currDate = getAnimationDateLabel();
+  await renderPath({
+    featureGroup,
+    properties: animatedMapProperties,
+    currDate,
+  });
 };
 
 window.onload = init;

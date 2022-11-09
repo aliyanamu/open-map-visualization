@@ -1,3 +1,4 @@
+import { customIconURL, iconProps } from "./constants.js";
 const valueInput = document.querySelectorAll(".date-value-input input");
 const animationInput = document.querySelector(".animation-slider input");
 
@@ -9,8 +10,13 @@ export const calculateDiffDate = (minDate, maxDate) => {
   );
 };
 
+export const customIcon = (color) => ({
+  ...iconProps,
+  iconUrl: customIconURL.replace("xxx", color),
+});
+
 export const formatDate = (date) => {
-  var d = new Date(date),
+  let d = new Date(date),
     month = "" + (d.getMonth() + 1),
     day = "" + d.getDate(),
     year = d.getFullYear();
@@ -21,47 +27,43 @@ export const formatDate = (date) => {
   return [year, month, day].join("-");
 };
 
-const formatKeyToDateStr = (key) => {
-  const year = key.substring(0, 4);
-  const month = key.substring(4, 6);
-  const date = key.substring(6, 8);
-  return `${year}-${month}-${date}`;
+export const getAnimationDateLabel = () => {
+  const value = animationInput.value;
+  const dateValue = new Date(valueInput[0].value);
+  dateValue.setDate(dateValue.getDate() + parseInt(value, 10));
+  return formatDate(dateValue);
 };
 
-export const formatDateStrToKey = (dateString) => {
-  return dateString.split("-").join("");
+export const setInitDateRange = () => {
+  const storedMinDate = localStorage.getItem("minDate");
+  const storedMaxDate = localStorage.getItem("maxDate");
+  const date = new Date();
+  const minDate = storedMinDate ? storedMinDate : formatDate(date);
+  const maxDate = storedMaxDate
+    ? storedMaxDate
+    : formatDate(date.setDate(date.getDate() + 10));
+  setDateRange({ minDate, maxDate });
 };
 
-export const transformMapData = (mapDataByDate) => {
-  let minDate, maxDate, diffDate;
-  const sortDates = Object.keys(mapDataByDate).sort();
-  return sortDates.reduce(
-    (obj, key, index) => {
-      if (index === 0) {
-        minDate = formatKeyToDateStr(key);
-        valueInput[0].value = minDate;
-        valueInput[0].min = minDate;
-        valueInput[1].min = minDate;
-        obj.initData = mapDataByDate[key];
-      }
-      if (index === sortDates.length - 1) {
-        maxDate = formatKeyToDateStr(key);
-        diffDate = calculateDiffDate(minDate, maxDate);
-        valueInput[0].max = maxDate;
-        valueInput[1].value = maxDate;
-        valueInput[1].max = maxDate;
-        resetAnimationRange(0, diffDate);
-      }
-
-      obj.sortedMapData[key] = mapDataByDate[key];
-      return obj;
-    },
-    { initData: {}, sortedMapData: [] }
-  );
+export const setDateRange = ({ minDate, maxDate }) => {
+  if (minDate) {
+    valueInput[0].value = minDate;
+    valueInput[1].min = minDate;
+    localStorage.setItem("minDate", minDate);
+  }
+  if (maxDate) {
+    valueInput[0].max = maxDate;
+    valueInput[1].value = maxDate;
+    localStorage.setItem("maxDate", maxDate);
+  }
+  setAnimationRange({
+    maxValue: calculateDiffDate(valueInput[0].value, valueInput[1].value),
+  });
 };
 
-export const resetAnimationRange = (minValue = 0, maxValue) => {
+export const setAnimationRange = ({ minValue, maxValue }) => {
+  minValue = minValue || 0;
   animationInput.min = minValue;
-  animationInput.max = maxValue;
   animationInput.value = minValue;
+  animationInput.max = maxValue;
 };

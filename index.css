@@ -87,6 +87,7 @@ input[type="button"] {
   height: 100%;
   outline: none;
   border-radius: 5px;
+  max-width: 7rem;
   text-align: center;
   border: 1px solid #999;
   -moz-appearance: textfield;
@@ -215,10 +216,6 @@ input[type="date"]::-webkit-inner-spin-button {
   top: 100%;
   left: 50%;
   margin-left: -5px;
-}
-
-.playback-speed-input input {
-  width: 7rem;
 }
 
 @media (max-width: 800px) {
